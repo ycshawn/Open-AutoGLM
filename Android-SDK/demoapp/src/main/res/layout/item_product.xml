@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_small"
+    app:cardElevation="@dimen/elevation_small"
+    app:cardCornerRadius="@dimen/corner_radius_medium"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/cardProduct">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium">
+
+        <!-- Product image placeholder -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/product_image_size"
+            android:background="@color/md_theme_light_surfaceVariant">
+
+            <TextView
+                android:id="@+id/tvProductEmoji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="48sp"
+                tools:text="🍎" />
+
+        </FrameLayout>
+
+        <!-- Product name -->
+        <TextView
+            android:id="@+id/tvProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold"
+            android:textColor="@color/md_theme_light_onSurface"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="新鲜苹果" />
+
+        <!-- Category -->
+        <TextView
+            android:id="@+id/tvProductCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/md_theme_light_outline"
+            tools:text="水果" />
+
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvProductPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:textColor="@color/md_theme_light_primary"
+            tools:text="¥12.8" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,449 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001000000000000001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001000000000000001 /* AppDelegate.swift */; };
+		A1000002000000000000001 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002000000000000001 /* SceneDelegate.swift */; };
+		A1000003000000000000001 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003000000000000001 /* MainViewController.swift */; };
+		A1000004000000000000001 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004000000000000001 /* LoginViewController.swift */; };
+		A1000005000000000000001 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005000000000000001 /* ProductListViewController.swift */; };
+		A1000006000000000000001 /* AgentEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006000000000000001 /* AgentEngine.swift */; };
+		A1000007000000000000001 /* AgentConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007000000000000001 /* AgentConfig.swift */; };
+		A1000008000000000000001 /* AgentResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008000000000000001 /* AgentResult.swift */; };
+		A1000009000000000000001 /* ModelClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009000000000000001 /* ModelClient.swift */; };
+		A1000010000000000000001 /* ModelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010000000000000001 /* ModelConfig.swift */; };
+		A1000011000000000000001 /* ModelResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011000000000000001 /* ModelResponse.swift */; };
+		A1000012000000000000001 /* MessageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012000000000000001 /* MessageBuilder.swift */; };
+		A1000013000000000000001 /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013000000000000001 /* ScreenCapture.swift */; };
+		A1000014000000000000001 /* ScreenInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014000000000000001 /* ScreenInfo.swift */; };
+		A1000015000000000000001 /* ActionExecutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015000000000000001 /* ActionExecutor.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A0000001000000000000001 /* PhoneAgentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneAgentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000001000000000000001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A2000002000000000000001 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A2000003000000000000001 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		A2000004000000000000001 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A2000005000000000000001 /* ProductListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		A2000006000000000000001 /* AgentEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentEngine.swift; sourceTree = "<group>"; };
+		A2000007000000000000001 /* AgentConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentConfig.swift; sourceTree = "<group>"; };
+		A2000008000000000000001 /* AgentResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentResult.swift; sourceTree = "<group>"; };
+		A2000009000000000000001 /* ModelClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelClient.swift; sourceTree = "<group>"; };
+		A2000010000000000000001 /* ModelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConfig.swift; sourceTree = "<group>"; };
+		A2000011000000000000001 /* ModelResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelResponse.swift; sourceTree = "<group>"; };
+		A2000012000000000000001 /* MessageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBuilder.swift; sourceTree = "<group>"; };
+		A2000013000000000000001 /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
+		A2000014000000000000001 /* ScreenInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenInfo.swift; sourceTree = "<group>"; };
+		A2000015000000000000001 /* ActionExecutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionExecutor.swift; sourceTree = "<group>"; };
+		A2000016000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A5000001000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A8000001000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				A8000002000000000000001 /* PhoneAgentDemo */,
+				A8000003000000000000001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A8000002000000000000001 /* PhoneAgentDemo */ = {
+			isa = PBXGroup;
+			children = (
+				A8000004000000000000001 /* Views */,
+				A8000005000000000000001 /* SDK */,
+				A2000001000000000000001 /* AppDelegate.swift */,
+				A2000002000000000000001 /* SceneDelegate.swift */,
+				A2000016000000000000001 /* Info.plist */,
+				A8000006000000000000001 /* Assets.xcassets */,
+			);
+			path = PhoneAgentDemo;
+			sourceTree = "<group>";
+		};
+		A8000003000000000000001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0000001000000000000001 /* PhoneAgentDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A8000004000000000000001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A2000003000000000000001 /* MainViewController.swift */,
+				A2000004000000000000001 /* LoginViewController.swift */,
+				A2000005000000000000001 /* ProductListViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A8000005000000000000001 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				A8000007000000000000001 /* Agent */,
+				A8000008000000000000001 /* Model */,
+				A8000009000000000000001 /* Capture */,
+				A8000010000000000000001 /* Action */,
+			);
+			path = SDK;
+			sourceTree = "<group>";
+		};
+		A8000006000000000000001 /* Assets.xcassets */ = {
+			isa = PBXGroup;
+			children = (
+				A8000006100000000000001 /* AppIcon.appiconset */,
+			);
+			path = Assets.xcassets;
+			sourceTree = "<group>";
+		};
+		A8000006100000000000001 /* AppIcon.appiconset */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppIcon.appiconset;
+			sourceTree = "<group>";
+		};
+		A8000007000000000000001 /* Agent */ = {
+			isa = PBXGroup;
+			children = (
+				A2000006000000000000001 /* AgentEngine.swift */,
+				A2000007000000000000001 /* AgentConfig.swift */,
+				A2000008000000000000001 /* AgentResult.swift */,
+			);
+			path = Agent;
+			sourceTree = "<group>";
+		};
+		A8000008000000000000001 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A2000009000000000000001 /* ModelClient.swift */,
+				A2000010000000000000001 /* ModelConfig.swift */,
+				A2000011000000000000001 /* ModelResponse.swift */,
+				A2000012000000000000001 /* MessageBuilder.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A8000009000000000000001 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				A2000013000000000000001 /* ScreenCapture.swift */,
+				A2000014000000000000001 /* ScreenInfo.swift */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
+		A8000010000000000000001 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				A2000015000000000000001 /* ActionExecutor.swift */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AC00000100000000000001 /* PhoneAgentDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AD00000100000000000001 /* Build configuration list for PBXNativeTarget "PhoneAgentDemo" */;
+			buildPhases = (
+				A4000001000000000000001 /* Sources */,
+				A5000001000000000000001 /* Frameworks */,
+				A6000001000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhoneAgentDemo;
+			productName = PhoneAgentDemo;
+			productReference = A0000001000000000000001 /* PhoneAgentDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AB00000100000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					AC00000100000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = AD00000200000000000001 /* Build configuration list for PBXProject "PhoneAgentDemo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A8000001000000000000001;
+			productRefGroup = A8000003000000000000001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AC00000100000000000001 /* PhoneAgentDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A6000001000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A4000001000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001000000000000001 /* AppDelegate.swift in Sources */,
+				A1000002000000000000001 /* SceneDelegate.swift in Sources */,
+				A1000003000000000000001 /* MainViewController.swift in Sources */,
+				A1000004000000000000001 /* LoginViewController.swift in Sources */,
+				A1000005000000000000001 /* ProductListViewController.swift in Sources */,
+				A1000006000000000000001 /* AgentEngine.swift in Sources */,
+				A1000007000000000000001 /* AgentConfig.swift in Sources */,
+				A1000008000000000000001 /* AgentResult.swift in Sources */,
+				A1000009000000000000001 /* ModelClient.swift in Sources */,
+				A1000010000000000000001 /* ModelConfig.swift in Sources */,
+				A1000011000000000000001 /* ModelResponse.swift in Sources */,
+				A1000012000000000000001 /* MessageBuilder.swift in Sources */,
+				A1000013000000000000001 /* ScreenCapture.swift in Sources */,
+				A1000014000000000000001 /* ScreenInfo.swift in Sources */,
+				A1000015000000000000001 /* ActionExecutor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		AE00000100000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AE00000200000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AE00000300000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhoneAgentDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.PhoneAgentDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AE00000400000000000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = PhoneAgentDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demo.PhoneAgentDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AD00000100000000000001 /* Build configuration list for PBXNativeTarget "PhoneAgentDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE00000300000000000001 /* Debug */,
+				AE00000400000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AD00000200000000000001 /* Build configuration list for PBXProject "PhoneAgentDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE00000100000000000001 /* Debug */,
+				AE00000200000000000001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AB00000100000000000001 /* Project object */;
+}
