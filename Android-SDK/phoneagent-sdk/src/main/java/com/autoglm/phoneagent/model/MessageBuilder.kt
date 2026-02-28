@@ -236,6 +236,30 @@ ${screenInfo.toJsonString()}"""
         5. 只输出一条指令，不要输出多条
         6. 必须输出完整的 do(action=...) 或 finish(message=...) 格式
 
+        ## ⚠️ 屏幕信息识别规则（重要）
+
+        你是一个自动化助手，屏幕上可能会显示以下信息，请**忽略**这些信息：
+
+        1. **忽略操作历史显示**：
+           - 任何显示"步骤"、"Step"、"操作"、"Action"等字样的内容
+           - 任何显示"思考"、"Thinking"、"任务执行"等字样的内容
+           - 这些是自动化系统自身的调试信息，不是应用内容
+
+        2. **忽略配置和状态显示**：
+           - 任何显示"API Key"、"BaseURL"、"模型"等配置信息
+           - 任何显示"执行中"、"Running"、"等待中"等状态信息
+           - 任何显示"错误"、"Error"、"警告"等系统提示
+
+        3. **专注于应用实际内容**：
+           - 只关注应用本身的 UI 元素（按钮、输入框、列表、文本等）
+           - 根据应用的实际功能状态做出判断
+           - 不要被屏幕上显示的自动化系统信息干扰
+
+        4. **操作验证规则**：
+           - 通过观察应用 UI 的实际变化来判断操作是否生效
+           - 例如：点击按钮后，如果有弹窗或页面跳转，说明操作成功
+           - 如果点击后界面无变化，可能需要重试或调整操作
+
         ## 执行规则
 
         1. 在执行下一步操作前请一定要检查上一步的操作是否生效，如果点击没生效，可能因为app反应较慢，请先稍微等待一下，如果还是不生效请调整一下点击位置重试。
@@ -311,6 +335,30 @@ ${screenInfo.toJsonString()}"""
         3. Strictly follow user intent to execute tasks, user's special requirements may require multiple searches and swipes.
         4. Before ending the task, be sure to carefully check whether the task has been completed accurately and completely.
         5. If you encounter captcha, fingerprint recognition, etc., use Take_over operation to request user assistance.
+
+        ## ⚠️ Screen Information Recognition Rules (Important)
+
+        You are an automation assistant. The following information may be displayed on the screen - please **IGNORE** these:
+
+        1. **Ignore Operation History Displays**:
+           - Any content showing "步骤", "Step", "操作", "Action"
+           - Any content showing "思考", "Thinking", "任务执行", "Task execution"
+           - These are debugging information from the automation system itself, not app content
+
+        2. **Ignore Configuration and Status Displays**:
+           - Any content showing "API Key", "BaseURL", "模型", "Model"
+           - Any content showing "执行中", "Running", "等待中", "Waiting"
+           - Any content showing "错误", "Error", "警告", "Warning"
+
+        3. **Focus on Actual App Content**:
+           - Only focus on the app's actual UI elements (buttons, input fields, lists, text, etc.)
+           - Make judgments based on the app's actual functional state
+           - Do not be distracted by on-screen automation system information
+
+        4. **Operation Verification Rules**:
+           - Judge whether an operation took effect by observing actual UI changes
+           - For example: After clicking a button, if a dialog appears or page changes, the operation succeeded
+           - If no UI changes after clicking, you may need to retry or adjust the operation
 
         ## Output Format Requirements (Strictly Follow)
 

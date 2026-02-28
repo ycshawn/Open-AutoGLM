@@ -107,6 +107,21 @@ class AgentEngine(
     private var messages: MutableList<MessageBuilder.Message> = mutableListOf()
     private var unknownActionCount = 0
 
+    // Helper method for conditional logging
+    private fun logDebug(message: String) {
+        if (config.verbose) {
+            println("[AgentEngine] $message")
+        }
+    }
+
+    private fun logInfo(message: String) {
+        println("[AgentEngine] $message")
+    }
+
+    private fun logError(message: String) {
+        println("[AgentEngine] ERROR: $message")
+    }
+
     // Public state flows
     val currentStep: StateFlow<Int> = _currentStep.asStateFlow()
     val isRunning: StateFlow<Boolean> = _isRunning.asStateFlow()
@@ -128,20 +143,18 @@ class AgentEngine(
      * @return AgentResult with the execution outcome
      */
     suspend fun run(instruction: String): AgentResult = withContext(Dispatchers.Main) {
-        println("🚀 AgentEngine.run() 开始，指令: $instruction")
+        logInfo("开始执行任务: $instruction")
 
         if (_isRunning.value) {
-            println("❌ Agent 已在运行中")
+            logError("Agent 已在运行中")
             return@withContext AgentResult.failure("Agent 已在运行中")
         }
 
         config.validate()
-        println("✅ 配置验证通过")
 
         // Reset state
         resetState()
         _isRunning.value = true
-        println("✅ 状态已重置，isRunning = true")
 
         val startTime = System.currentTimeMillis()
         val historyList = mutableListOf<AgentResult.StepInfo>()
@@ -149,25 +162,20 @@ class AgentEngine(
         var totalExecutionTime = 0L
 
         try {
-            println("📸 开始执行第一步...")
             // Execute first step with instruction
             val firstStepResult = executeFirstStep(instruction)
             if (firstStepResult != null) {
                 historyList.add(firstStepResult)
                 totalInferenceTime += firstStepResult.inferenceTime
                 totalExecutionTime += firstStepResult.executionTime
-                println("✅ 第一步完成，actionType = ${firstStepResult.actionType}")
-            } else {
-                println("⚠️ 第一步返回 null")
             }
 
             // Continue executing steps
             while (_currentStep.value < config.maxSteps && isActive) {
-                println("🔄 循环检查: step=${_currentStep.value}, maxSteps=${config.maxSteps}, isActive=$isActive")
                 // Check if previous step finished the task
                 val lastStep = historyList.lastOrNull()
                 if (lastStep?.actionType == ActionType.FINISH) {
-                    println("✅ 任务完成")
+                    logInfo("任务完成")
                     break
                 }
 
@@ -255,20 +263,15 @@ class AgentEngine(
      * Execute the first step with the instruction.
      */
     private suspend fun executeFirstStep(instruction: String): AgentResult.StepInfo? {
-        println("🔧 executeFirstStep() 开始")
-
         // Build messages with system prompt and instruction
         messages.clear()
         messages.add(MessageBuilder.buildSystemMessage(modelClient.config.language))
-        println("✅ 系统消息已添加")
 
         // Capture screenshot
-        println("📸 捕获屏幕截图...")
         val currentActivity = getCurrentActivity()
-        println("   当前 Activity: ${currentActivity.javaClass.simpleName}")
         val screenshot = ScreenCapture.captureActivity(currentActivity)
         val screenInfo = ScreenInfo.fromActivity(currentActivity, includeElements = false)
-        println("✅ 截图已捕获: ${screenshot.width}x${screenshot.height}")
+        logDebug("截图: ${screenshot.width}x${screenshot.height}, Activity: ${currentActivity.javaClass.simpleName}")
 
         // Add user message with instruction and screenshot
         messages.add(
@@ -278,9 +281,7 @@ class AgentEngine(
                 screenInfo = screenInfo
             )
         )
-        println("✅ 用户消息已添加，消息总数: ${messages.size}")
 
-        println("🌐 调用 callModelAndExecute()...")
         return callModelAndExecute()
     }
 
@@ -293,7 +294,6 @@ class AgentEngine(
 
         // Capture new screenshot
         val currentActivity = getCurrentActivity()
-        println("📸 捕获屏幕截图... 当前 Activity: ${currentActivity.javaClass.simpleName}")
         val screenshot = ScreenCapture.captureActivity(currentActivity)
         val screenInfo = ScreenInfo.fromActivity(currentActivity, includeElements = false)
 
@@ -313,15 +313,11 @@ class AgentEngine(
      */
     private suspend fun callModelAndExecute(): AgentResult.StepInfo? {
         val stepStartTime = System.currentTimeMillis()
-        println("⏱️ callModelAndExecute() 开始，当前消息数: ${messages.size}")
 
         val response = try {
-            println("🌐 发送请求到模型...")
-            println("   BaseURL: ${modelClient.config.baseURL}")
-            println("   Model: ${modelClient.config.modelName}")
             modelClient.sendRequest(messages.toList())
         } catch (e: Exception) {
-            println("❌ 模型请求异常: ${e.javaClass.simpleName}: ${e.message}")
+            logError("模型请求异常: ${e.javaClass.simpleName}: ${e.message}")
             e.printStackTrace()
             _error.value = "模型请求失败: ${e.message}"
             return AgentResult.StepInfo(
@@ -335,10 +331,7 @@ class AgentEngine(
             )
         }
 
-        println("✅ 模型响应收到")
-        println("   Thinking: ${response.thinking.take(100)}...")
-        println("   Action: ${response.action.take(100)}...")
-        println("   ActionType: ${response.parsedAction.type}")
+        logDebug("步骤 ${_currentStep.value + 1}: ${response.parsedAction.type}")
 
         val inferenceTime = response.totalTime
         _currentThinking.value = response.thinking
@@ -347,9 +340,7 @@ class AgentEngine(
         // Check for unknown action
         if (response.parsedAction.type == ActionType.UNKNOWN) {
             unknownActionCount++
-            if (config.verbose) {
-                println("⚠️ AgentEngine: 未知动作 #$unknownActionCount: ${response.parsedAction.rawAction}")
-            }
+            logError("未知动作 #$unknownActionCount: ${response.parsedAction.rawAction}")
 
             if (unknownActionCount >= config.unknownActionThreshold) {
                 return AgentResult.StepInfo(
@@ -403,10 +394,7 @@ class AgentEngine(
         )
         if (response.parsedAction.type in navigationActions && executionResult.isSuccess) {
             val delayTime = if (response.parsedAction.type == ActionType.SWIPE) 300 else 400
-            if (config.verbose) {
-                println("🕐 ${response.parsedAction.type} 操作，额外等待 ${delayTime}ms 让 UI 更新...")
-            }
-            delay(delayTime.toLong())  // Extra wait for UI to update
+            delay(delayTime.toLong())
         }
 
         val stepNumber = _currentStep.value + 1
@@ -432,10 +420,8 @@ class AgentEngine(
 
         // Log if verbose
         if (config.verbose) {
-            println("✅ 步骤 $stepNumber:")
-            println("   思考: ${response.thinking}")
-            println("   动作: ${response.action}")
-            println("   结果: ${if (executionResult.isSuccess) "成功" else "失败"}")
+            val result = if (executionResult.isSuccess) "✓" else "✗"
+            logDebug("步骤 $stepNumber: ${response.parsedAction.type} $result")
         }
 
         return stepInfo.copy(

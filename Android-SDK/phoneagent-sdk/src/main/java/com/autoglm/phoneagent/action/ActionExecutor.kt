@@ -36,6 +36,15 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
     private val rootView: ViewGroup
         get() = activityProvider().window.decorView as ViewGroup
 
+    // Helper method for conditional logging
+    private fun logDebug(message: String) {
+        println("[ActionExecutor] $message")
+    }
+
+    private fun logError(message: String) {
+        println("[ActionExecutor] ERROR: $message")
+    }
+
     /**
      * Execute an action and return the result.
      *
@@ -73,29 +82,21 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
         val actualX = (x.toFloat() / 999f * rootView.width).toInt()
         val actualY = (y.toFloat() / 999f * rootView.height).toInt()
 
-        println("🎯 executeTap: normalized=($x, $y), actual=($actualX, $actualY)")
-        println("   rootView.size=${rootView.width}x${rootView.height}")
-
         // Find the view at the coordinates
         val view = findViewAt(actualX, actualY)
-        println("   findViewAt result: $view")
 
         return if (view != null) {
-            println("   Found view: ${getViewDescription(view)}, clickable=${view.isClickable}")
             // Perform click on the view
             val performed = performClick(view)
-            println("   performClick result: $performed")
             if (performed) {
                 ExecutionResult.Success("点击了 ${getViewDescription(view)}")
             } else {
                 // Fallback to simulated touch event
-                println("   Fallback to simulateTap")
                 simulateTap(actualX, actualY)
                 ExecutionResult.Success("点击坐标 ($actualX, $actualY)")
             }
         } else {
             // No view found, simulate touch event
-            println("   No view found, using simulateTap")
             simulateTap(actualX, actualY)
             ExecutionResult.Success("点击坐标 ($actualX, $actualY)")
         }
@@ -142,7 +143,6 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
      * Amplifies swipe distance by 1.8x for more noticeable scrolling.
      */
     private suspend fun executeSwipe(action: AgentAction): ExecutionResult {
-        println("========== SWIPE START ==========")
         val start = action.start ?: return ExecutionResult.Error("缺少起始坐标")
         val end = action.end ?: return ExecutionResult.Error("缺少结束坐标")
 
@@ -166,56 +166,35 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
         val endX = (amplifiedEndX.toFloat() / 999f * rootView.width).toInt()
         val endY = (amplifiedEndY.toFloat() / 999f * rootView.height).toInt()
 
-        println("🎯 executeSwipe: normalized start=[${start[0]},${start[1]}], end=[${end[0]},${end[1]}]")
-        println("   amplified end=[$amplifiedEndX,$amplifiedEndY] (amplification=${swipeAmplification}x)")
-        println("   actual start=($startX, $startY), end=($endX, $endY)")
-        println("   rootView.size=${rootView.width}x${rootView.height}")
-
         // Try to find a scrollable view at the start position
-        println("   Calling findScrollableAt...")
         val scrollable = try {
             findScrollableAt(startX, startY)
         } catch (e: Exception) {
-            println("   ❌ findScrollableAt exception: ${e.javaClass.simpleName}: ${e.message}")
-            e.printStackTrace()
+            logError("查找可滚动视图异常: ${e.message}")
             null
         }
-        println("   findScrollableAt result: ${scrollable?.javaClass?.simpleName ?: "null"}")
 
         if (scrollable != null) {
             // Use scrollBy for smoother scrolling
             val deltaX = endX - startX
             val deltaY = endY - startY
-            println("   deltaX=$deltaX, deltaY=$deltaY")
 
             // Must run scroll operations on main thread
             withContext(Dispatchers.Main) {
                 try {
                     if (scrollable is RecyclerView) {
-                        println("   Using RecyclerView.scrollBy($deltaX, $deltaY)")
-                        println("   Current scrollY: ${scrollable.computeVerticalScrollOffset()}, max: ${scrollable.computeVerticalScrollRange() - scrollable.computeVerticalScrollExtent()}")
                         scrollable.scrollBy(deltaX, deltaY)
-                        println("   Used RecyclerView.scrollBy - SUCCESS")
                     } else if (scrollable is NestedScrollView) {
                         // Check if NestedScrollView can scroll
                         val child = scrollable.getChildAt(0)
-                        println("   Using NestedScrollView:")
-                        println("      scrollY: ${scrollable.scrollY}")
-                        println("      NestedScrollView height: ${scrollable.height}")
-                        println("      Child view: ${child?.javaClass?.simpleName}, height: ${child?.height}")
 
                         if (child != null && child is ViewGroup) {
-                            println("      Child is ViewGroup with ${child.childCount} children")
-
                             // Check for RecyclerView inside NestedScrollView
                             for (i in 0 until child.childCount) {
                                 val grandChild = child.getChildAt(i)
-                                println("         child[$i]: ${grandChild.javaClass.simpleName}, height=${grandChild.height}")
                                 if (grandChild is RecyclerView) {
-                                    println("      Found RecyclerView inside NestedScrollView!")
                                     grandChild.scrollBy(deltaX, deltaY)
                                     delay(100)
-                                    println("   Used inner RecyclerView.scrollBy - SUCCESS")
                                     return@withContext
                                 }
                             }
@@ -224,54 +203,38 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
                             var totalContentHeight = 0
                             for (i in 0 until child.childCount) {
                                 val grandChild = child.getChildAt(i)
-                                // Use bottom position instead of height for more accurate measurement
                                 totalContentHeight = maxOf(totalContentHeight, grandChild.bottom)
                             }
-                            println("      Total content height (from bottom positions): $totalContentHeight")
 
                             // Calculate max scroll based on content height
                             val maxScrollY = (totalContentHeight - scrollable.height + scrollable.paddingTop + scrollable.paddingBottom).coerceAtLeast(0)
-                            println("      maxScrollY: $maxScrollY (contentHeight=$totalContentHeight - viewHeight=${scrollable.height} + padding=${scrollable.paddingTop + scrollable.paddingBottom})")
 
                             if (maxScrollY > 0) {
-                                println("      ⚠️ Programmatic scroll may not work with fillViewport, using simulateSwipe instead")
-                                println("      simulateSwipe will dispatch real touch events to trigger native scroll behavior")
-                                // Use simulateSwipe to send real touch events - this is the most reliable method
-                                // as it triggers the actual touch handling code in NestedScrollView
+                                // Use simulateSwipe to send real touch events
                                 simulateSwipe(startX, startY, endX, endY)
-                                delay(50) // Minimal wait for touch events to be processed
-                                println("   Used simulateSwipe for NestedScrollView - SUCCESS")
+                                delay(50)
                                 return@withContext
                             }
                         }
 
-                        println("      ⚠️ NestedScrollView has no scrollable content, using simulateSwipe")
                         simulateSwipe(startX, startY, endX, endY)
                     } else if (scrollable is ScrollView) {
-                        println("   Using ScrollView - scrollY: ${scrollable.scrollY}")
                         val child = scrollable.getChildAt(0)
                         val childHeight = child?.height ?: 0
                         val maxScrollY = (childHeight - scrollable.height).coerceAtLeast(0)
-                        println("      maxScrollY: $maxScrollY")
                         val currentScrollY = scrollable.scrollY
                         val newScrollY = (currentScrollY - deltaY).coerceIn(0, maxScrollY)
-                        println("   Scrolling from $currentScrollY to $newScrollY")
                         scrollable.scrollTo(0, newScrollY)
                         delay(100)
-                        println("   Used ScrollView.scrollTo - SUCCESS")
                     } else if (scrollable is WebView) {
-                        println("   Using WebView.scrollBy($deltaX, $deltaY)")
                         scrollable.scrollBy(deltaX, deltaY)
                         delay(100)
-                        println("   Used WebView.scrollBy - SUCCESS")
                     } else {
                         // Fallback to simulated swipe
-                        println("   Unknown scrollable type, using simulateSwipe")
                         simulateSwipe(startX, startY, endX, endY)
                     }
                 } catch (e: Exception) {
-                    println("   ScrollBy exception: ${e.message}")
-                    e.printStackTrace()
+                    logError("滚动异常: ${e.message}")
                     simulateSwipe(startX, startY, endX, endY)
                 }
             }
@@ -282,13 +245,10 @@ class ActionExecutor(private val activityProvider: () -> Activity) {
                 else -> "向右滑动"
             }
 
-            println("========== SWIPE END (SUCCESS) ==========")
             return ExecutionResult.Success("$direction")
         } else {
             // No scrollable view found, simulate swipe gesture
-            println("   No scrollable found, using simulateSwipe")
             simulateSwipe(startX, startY, endX, endY)
-            println("========== SWIPE END (SIMULATED) ==========")
             return ExecutionResult.Success("滑动从 ($startX, $startY) 到 ($endX, $endY)")
         }
     }
