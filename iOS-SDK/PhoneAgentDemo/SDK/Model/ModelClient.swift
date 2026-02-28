@@ -102,12 +102,9 @@ public class ModelClient: ObservableObject {
                     return
                 }
 
-                // 打印原始响应用于调试
+                // 调试：记录原始响应（仅在解析失败时有用）
                 if let jsonString = String(data: data, encoding: .utf8) {
-                    print("=== ModelClient: 原始 JSON 响应 ===")
-                    print(jsonString)
-                    logger.error("=== ModelClient: 原始 JSON 响应 ===")
-                    logger.error("\(jsonString)")
+                    logger.debug("\(jsonString.prefix(1000))")
                 }
 
                 // 解析非流式 JSON 响应
@@ -127,20 +124,14 @@ public class ModelClient: ObservableObject {
                     timeToThinkingEnd = timeToFirstToken
 
                 } catch {
-                    logger.error("JSON 解析异常: \(error)")
+                    logger.error("JSON 解析失败: \(error.localizedDescription)")
                     continuation.resume(throwing: ModelError.parsingError)
                     return
                 }
 
                 // 解析响应
-                logger.error("=== ModelClient: 解析结果 ===")
-                logger.error("rawContent: \(rawContent.prefix(1000))")
-
                 let parsedThinking = self.parseThinking(rawContent)
                 let parsedAction = self.parseAction(rawContent)
-
-                logger.error("parsedThinking: \(parsedThinking)")
-                logger.error("parsedAction: \(parsedAction)")
 
                 let totalTime = Date().timeIntervalSince(startTime)
                 let metrics = ModelResponse.ResponseMetrics.make(
@@ -216,14 +207,6 @@ public class ModelClient: ObservableObject {
         ]
 
         request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
-
-        // 调试：打印请求体
-        if let bodyString = String(data: request.httpBody!, encoding: .utf8) {
-            print("=== ModelClient: 发送的请求 ===")
-            print("URL: \(request.url!)")
-            print("Body: \(bodyString.prefix(2000))...")  // 打印前2000个字符
-        }
-
         return request
     }
 
@@ -342,7 +325,7 @@ public class ModelClient: ObservableObject {
         }
 
         // Rule 4: 没有找到标记，返回空字符串
-        print("⚠️ ModelClient.parseThinking: 无法解析思考过程，原始内容: \(content.prefix(200))")
+        logger.warning("无法解析思考过程，原始内容: \(content.prefix(200))")
         return ""
     }
 
@@ -364,7 +347,7 @@ public class ModelClient: ObservableObject {
         }
 
         // 都没找到，返回空字符串（将在 AgentEngine 中触发解析错误）
-        print("⚠️ ModelClient.parseAction: 无法解析动作，原始内容: \(content.prefix(200))")
+        logger.warning("无法解析动作，原始内容: \(content.prefix(200))")
         return ""
     }
 }

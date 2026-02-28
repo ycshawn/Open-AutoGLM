@@ -287,11 +287,6 @@ public class AgentEngine: ObservableObject {
     ) async throws {
         let startTime = Date()
 
-        // 打印屏幕信息
-        log("=== 屏幕信息 ===")
-        log("屏幕尺寸: \(screenshot.width) x \(screenshot.height)")
-        log("屏幕方向: \(screenshot.orientation.rawValue)")
-
         // 调用模型
         let response = try await modelClient.request(
             messages: messages,
@@ -299,15 +294,9 @@ public class AgentEngine: ObservableObject {
             screenHeight: screenshot.height
         )
 
-        // 打印调试信息
-        log("=== 模型响应 ===")
-        log("Thinking: \(response.thinking)")
-        log("Action: \(response.action)")
-        log("RawContent: \(response.rawContent.prefix(500))")
-
         // 检查响应是否为空
         if response.action.isEmpty {
-            log("⚠️ 警告: 模型返回空动作，停止执行")
+            log("⚠️ 模型返回空动作，停止执行")
             throw ModelError.parsingError
         }
 
@@ -318,12 +307,11 @@ public class AgentEngine: ObservableObject {
         )
 
         currentAction = response.action
-        log("解析后的动作类型: \(actionType)")
 
         // 检查是否为未知动作
         if case .unknown(let text) = actionType {
             unknownActionCount += 1
-            log("⚠️ 检测到未知动作 (计数: \(unknownActionCount)): \(text)")
+            log("⚠️ 未知动作 (\(unknownActionCount)/3): \(text.prefix(100))")
 
             // 连续 3 次未知动作时终止
             if unknownActionCount >= 3 {
@@ -334,7 +322,6 @@ public class AgentEngine: ObservableObject {
         } else {
             // 成功解析，重置计数
             if unknownActionCount > 0 {
-                log("✅ 解析成功，重置未知动作计数")
                 unknownActionCount = 0
             }
         }
@@ -368,9 +355,9 @@ public class AgentEngine: ObservableObject {
         // 通知进度
         onStepProgress?(currentStep, response.thinking, response.action)
 
-        // 如果执行失败，记录
+        // 执行失败时记录
         if !executionResult.success {
-            log("动作执行失败: \(executionResult.message ?? "未知错误")")
+            log("⚠️ 动作执行失败: \(executionResult.message ?? "未知错误")")
         }
     }
 

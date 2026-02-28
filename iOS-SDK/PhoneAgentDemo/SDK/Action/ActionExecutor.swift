@@ -214,9 +214,6 @@ public class ActionExecutor {
     }
 
     private func performSwipe(from start: CGPoint, to end: CGPoint) async throws -> ExecutionResult {
-        actionLogger.error("Swipe 归一化坐标: start=(\(String(format: "%.3f", start.x)), \(String(format: "%.3f", start.y))), end=(\(String(format: "%.3f", end.x)), \(String(format: "%.3f", end.y)))")
-        actionLogger.error("Window 尺寸: \(self.window.bounds.width) x \(self.window.bounds.height)")
-
         let startPoint = CGPoint(
             x: start.x * self.window.bounds.width,
             y: start.y * self.window.bounds.height
@@ -226,22 +223,18 @@ public class ActionExecutor {
             y: end.y * self.window.bounds.height
         )
 
-        actionLogger.error("Swipe 实际坐标: startPoint=(\(String(format: "%.1f", startPoint.x)), \(String(format: "%.1f", startPoint.y))), endPoint=(\(String(format: "%.1f", endPoint.x)), \(String(format: "%.1f", endPoint.y)))")
-
         // 计算实际屏幕坐标的差值
         let deltaX = endPoint.x - startPoint.x
         let deltaY = endPoint.y - startPoint.y
 
-        actionLogger.error("Swipe 偏移量: deltaX=\(deltaX), deltaY=\(deltaY)")
+        actionLogger.debug("Swipe: delta=(\(Int(deltaX)), \(Int(deltaY)))")
 
         // 优先使用主 UIScrollView（整屏滑动）
         var scrollView: UIScrollView?
         if let mainScrollView = findMainScrollView() {
             scrollView = mainScrollView
-            actionLogger.error("使用主 ScrollView: \(mainScrollView)")
         } else if let hitScrollView = findScrollView(at: startPoint) {
             scrollView = hitScrollView
-            actionLogger.error("使用点击点 ScrollView: \(hitScrollView)")
         }
 
         if let scrollView = scrollView {
