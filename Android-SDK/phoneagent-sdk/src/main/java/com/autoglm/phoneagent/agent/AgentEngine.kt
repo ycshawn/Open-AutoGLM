@@ -405,7 +405,7 @@ class AgentEngine(
             thinking = response.thinking,
             action = response.action,
             actionType = response.parsedAction.type,
-            success = executionResult.isSuccess,
+            success = executionResult.isSuccess || executionResult.shouldFinish,
             message = executionResult.getMessage(),
             duration = System.currentTimeMillis() - stepStartTime
         )
@@ -420,7 +420,11 @@ class AgentEngine(
 
         // Log if verbose
         if (config.verbose) {
-            val result = if (executionResult.isSuccess) "✓" else "✗"
+            val result = when {
+                executionResult.shouldFinish -> "✓ (完成)"
+                executionResult.isSuccess -> "✓"
+                else -> "✗"
+            }
             logDebug("步骤 $stepNumber: ${response.parsedAction.type} $result")
         }
 

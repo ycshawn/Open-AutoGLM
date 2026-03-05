@@ -21,8 +21,125 @@ import java.util.concurrent.TimeUnit
 /**
  * Client for communicating with the AutoGLM model API.
  * Uses OpenAI-compatible chat completion endpoint.
+ *
+ * Supports mock mode for testing without network requests.
  */
 class ModelClient(val config: ModelConfig) {
+
+    // Mock mode support
+    companion object {
+        /** Mock mode flag - when enabled, returns preset responses instead of making network requests */
+        var mockModeEnabled = false
+
+        /** Queue of preset mock responses to return in sequence */
+        private val mockResponseQueue = ArrayDeque<String>()
+
+        /** Current step index in mock mode */
+        var mockStepIndex = 0
+
+        /**
+         * Set preset mock responses for testing.
+         * Each response will be returned in sequence as requests are made.
+         *
+         * @param responses List of raw model response strings
+         */
+        fun setMockResponses(vararg responses: String) {
+            mockResponseQueue.clear()
+            mockResponseQueue.addAll(responses)
+            mockStepIndex = 0
+            mockModeEnabled = true
+        }
+
+        /**
+         * Add a single mock response to the queue.
+         */
+        fun addMockResponse(response: String) {
+            mockResponseQueue.add(response)
+            mockModeEnabled = true
+        }
+
+        /**
+         * Clear all mock responses and disable mock mode.
+         */
+        fun clearMockResponses() {
+            mockResponseQueue.clear()
+            mockStepIndex = 0
+            mockModeEnabled = false
+        }
+
+        /**
+         * Check if mock mode is enabled.
+         */
+        fun isMockMode(): Boolean = mockModeEnabled && mockResponseQueue.isNotEmpty()
+
+        /**
+         * Get predefined mock responses for common actions.
+         * These use the exact format expected by AgentAction.parse()
+         */
+        fun getMockTAP(x: Int = 500, y: Int = 300): String {
+            return """
+            我需要点击屏幕上的目标元素
+
+            do(action="Tap", element=[$x, $y])
+            """.trimIndent()
+        }
+
+        fun getMockSWIPE(): String {
+            return """
+            向上滚动查看更多内容
+
+            do(action="Swipe", start=[500, 700], end=[500, 300])
+            """.trimIndent()
+        }
+
+        fun getMockTYPE(text: String = "搜索内容"): String {
+            return """
+            在输入框中输入文字
+
+            do(action="Type", text="$text")
+            """.trimIndent()
+        }
+
+        fun getMockBACK(): String {
+            return """
+            返回上一页
+
+            do(action="Back")
+            """.trimIndent()
+        }
+
+        fun getMockWAIT(seconds: Int = 1): String {
+            return """
+            等待一段时间
+
+            do(action="Wait", duration="$seconds seconds")
+            """.trimIndent()
+        }
+
+        fun getMockLONG_PRESS(x: Int = 500, y: Int = 300): String {
+            return """
+            长按目标元素
+
+            do(action="Long Press", element=[$x, $y])
+            """.trimIndent()
+        }
+
+        fun getMockDOUBLE_TAP(x: Int = 500, y: Int = 300): String {
+            return """
+            双击目标元素
+
+            do(action="Double Tap", element=[$x, $y])
+            """.trimIndent()
+        }
+
+        fun getMockFINISH(message: String = "任务已完成"): String {
+            return """
+            $message
+
+            finish(message="$message")
+            """.trimIndent()
+        }
+    }
 
     private val gson = Gson()
 
@@ -70,6 +187,44 @@ class ModelClient(val config: ModelConfig) {
     suspend fun sendRequest(messages: List<MessageBuilder.Message>): ModelResponse =
         withContext(Dispatchers.IO) {
             val startTime = System.currentTimeMillis()
+
+            // Check if mock mode is enabled
+            if (isMockMode()) {
+                logDebug("=== MOCK MODE ENABLED ===")
+                logDebug("使用预设响应，跳过网络请求")
+
+                val mockContent = if (mockResponseQueue.isNotEmpty()) {
+                    mockResponseQueue.removeFirst()
+                } else {
+                    // Fallback to a default TAP action
+                    getMockTAP()
+                }
+
+                mockStepIndex++
+                logDebug("Mock 步骤: $mockStepIndex")
+                logDebug("Mock 响应: ${mockContent.take(100)}...")
+
+                // Simulate network delay
+                kotlinx.coroutines.delay(300)
+
+                val timeToFirstToken = 300L
+                val totalTime = System.currentTimeMillis() - startTime
+
+                // Parse thinking and action from mock content
+                val (thinking, action) = parseResponse(mockContent)
+
+                onThinking?.invoke(thinking)
+                onAction?.invoke(action)
+
+                return@withContext ModelResponse(
+                    thinking = thinking,
+                    action = action,
+                    rawContent = mockContent,
+                    parsedAction = AgentAction.parse(action),
+                    timeToFirstToken = timeToFirstToken,
+                    totalTime = totalTime
+                )
+            }
 
             try {
                 // Build request body
